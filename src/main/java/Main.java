@@ -13,7 +13,12 @@ import java.net.URISyntaxException;
 
 public class Main {
     public static void main(String[] args) throws URISyntaxException {
-        WebSocketClient client = new WebSocketClient(new URI("ws://127.0.0.1:8888/action/callback/B3563580-3029-44C3-B132-XXXXXXXXXX")) {
+        //控制端机器码
+        String machineCode = "B0C07F8D-ABF4-4B7E-BDA8-XXXXXX";
+        //启动一个微信客户端，扫码登录，也可以调用“获取登录二维码”接口远程扫码
+        startWx(machineCode);
+        //消息回调websocket
+        WebSocketClient client = new WebSocketClient(new URI("ws://129.211.37.193:8888/action/callback/"+machineCode)) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 System.out.println("onOpen");
@@ -57,6 +62,19 @@ public class Main {
             }
         };
         client.connect();
+    }
+
+    /**
+     * 启动一个微信
+     */
+    private static void startWx(String machineCode){
+        HttpUtil.createPost("http://129.211.37.193:8888/api/startClient")
+                .contentType("application/json")
+                .charset("utf-8")
+                .body(JSON
+                        .toJSONString(MapUtil.builder()
+                                .put("machineCode",machineCode).build()))
+                .execute();
     }
 
     /**
