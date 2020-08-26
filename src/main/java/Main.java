@@ -22,7 +22,6 @@ public class Main {
             public void onMessage(String message) {
                 JSONObject actionJsonMsg = JSON.parseObject(message);
             //    System.out.println("onMessage:"+JSON.toJSONString(actionJsonMsg,SerializerFeature.PrettyFormat));
-
                 System.out.println("=================收到消息====================");
                 String actionType = actionJsonMsg.getString("type");
                 System.out.println(String.format("-- 收到客户端事件 类型：%s",actionType));
@@ -48,12 +47,10 @@ public class Main {
                 }
                 System.out.println("=============================================");
             }
-
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 System.out.println("onClose");
             }
-
             @Override
             public void onError(Exception ex) {
                 System.out.println("onError");
@@ -70,7 +67,7 @@ public class Main {
      * @param msg
      */
     private static void sendMsg(String machineCode,String accountWxid,String toUserWxid,String msg){
-        HttpUtil.createPost("http://127.0.0.1:8888/api/sendTextMsg")
+        HttpUtil.createPost("http://129.211.37.193:8888/api/sendTextMsg")
                 .contentType("application/json")
                 .charset("utf-8")
                 .body(JSON
